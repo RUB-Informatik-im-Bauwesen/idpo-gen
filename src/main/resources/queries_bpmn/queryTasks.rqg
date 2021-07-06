@@ -1,0 +1,31 @@
+BASE <http://example.com/> 
+PREFIX ite: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX mail: <http://example.com/mail#>
+PREFIX note: <http://example.com/note/>
+PREFIX ex: <http://example.com/>
+PREFIX idpo: <http://w3id.org/idpo#> 
+PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+
+GENERATE { 
+    <http://example.com/note/{?taskId}> a bpmn2:Task;
+        bpmn2:name ?taskname;
+        bpmn2:outgoing ?og;
+        bpmn2:incoming <http://example.com/note/{?ic}>;
+        bpmn2:properties <http://example.com/note/{?prop}>;
+        bpmn2:dataInputAssociations <http://example.com/note/{?dataIA}>;
+}
+SOURCE <http://example.org/document#document0.xml> AS ?source
+
+ITERATOR ite:XPath(?source, "//task" ) AS ?task 
+WHERE {
+     BIND( fun:XPath(?task, "/task/@id") AS ?taskId)
+     BIND( fun:XPath(?task,"/task/@name"  ) AS ?taskname )
+     BIND( fun:XPath(?task, "/task/incoming/text()") AS ?ic )
+     BIND( fun:XPath(?task, "/task/outgoing/text()") AS ?og )
+     BIND( fun:XPath(?task, "/task/property/@id") AS ?prop)
+     BIND( fun:XPath(?task, "/task/dataInputAssociation/@id") AS ?dataIA)
+} 

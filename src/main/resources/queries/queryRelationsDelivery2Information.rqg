@@ -1,0 +1,27 @@
+BASE <http://w3id.org/idpo/instances/>
+PREFIX ite: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX instances: <http://w3id.org/idpo/instances/>
+PREFIX idpo: <http://w3id.org/idpo#> 
+PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+
+GENERATE { 
+
+     <http://w3id.org/idpo/instances/InformationDelivery_{?tID}> idpo:generatesInformation <http://w3id.org/idpo/instances/Information_{?dID}>.
+}
+SOURCE <http://example.org/document#document0.xml> AS ?source
+ITERATOR ite:XPath(?source, "//dataObject", "/dataObject/@id") AS ?dataObject ?dataObjectId
+ITERATOR ite:XPath(?source, "//process", "/process/@id", "/process/task", "/process/task/dataOutputAssociation","/process/task/@id", "/process/task/dataOutputAssociation/targetRef/text()") AS ?process ?pid ?task ?dataOutput ?taskId ?dataOutputReference
+ITERATOR ite:XPath(?source, "//dataObjectReference","/dataObjectReference/@id", "/dataObjectReference/@dataObjectRef") AS ?dataObject ?dataObjectRefId ?dataObjectRef
+WHERE {
+    FILTER(?dataObjectId=?dataObjectRef)
+    FILTER(?dataObjectRefId=?dataOutputReference)
+    FILTER(bound(?dataOutput))
+
+    BIND( strafter(?dataObjectId ,"_") AS ?dID )
+    BIND( strafter(?taskId ,"_") AS ?tID )
+
+} 

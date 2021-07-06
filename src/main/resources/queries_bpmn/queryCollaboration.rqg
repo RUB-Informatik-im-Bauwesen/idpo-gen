@@ -1,0 +1,29 @@
+BASE <http://example.com/> 
+PREFIX ite: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+PREFIX mail: <http://example.com/mail#>
+PREFIX note: <http://example.com/note/>
+PREFIX ex: <http://example.com/>
+PREFIX idpo: <http://w3id.org/idpo#> 
+PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+
+GENERATE {
+    <http://example.com/note/{?collaborationId}> a bpmn2:Collaboration;
+        bpmn2:participants <http://example.com/note/{?participantId}>;
+        bpmn2:messageFlowRefs <http://example.com/note/{?messageFlowId}>;
+        bpmn2:test ?collaboration ;
+         #bpmn2:test23 ?participantId .
+}
+SOURCE <http://example.org/document#document0.xml> AS ?source
+
+ITERATOR ite:XPath(?source, "//collaboration" ) AS ?collaboration
+ITERATOR ite:XPath(?collaboration, "//messageFlow", "/messageFlow/@id") AS ?messageFlow ?messageFlowId
+ITERATOR ite:XPath(?collaboration, "//participant", "/participant/@id") AS ?participant ?participantId
+
+
+WHERE {
+     BIND( fun:XPath(?collaboration, "/collaboration/@id") AS ?collaborationId)
+} 

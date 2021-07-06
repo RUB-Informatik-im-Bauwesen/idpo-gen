@@ -1,0 +1,26 @@
+@prefix instances: <http://w3id.org/idpo/instances/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix bpmn2: <http://www.reiter.at/ontology/bpmn2.0#> .
+@prefix ite:   <http://w3id.org/sparql-generate/iter/> .
+@prefix idpo:  <http://w3id.org/idpo#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix fun:   <http://w3id.org/sparql-generate/fn/> .
+
+instances:Project_1xf1ifl
+        a               idpo:Project ;
+        rdfs:comment    "Generated from BPMN Element Collaboration_1xf1ifl"@en ;
+        rdfs:label      "Project_1xf1ifl" ;
+        idpo:hasMember  instances:Person_1a0lavd , instances:Person_1wtvb4s .
+
+instances:Person_1a0lavd
+        a                prov:Person ;
+        rdfs:comment     "Generated from BPMN Element Participant_1a0lavd"@en ;
+        rdfs:label       "User 1" ;
+        idpo:isMemberOf  instances:Project_1xf1ifl .
+
+instances:Person_1wtvb4s
+        a                prov:Person ;
+        rdfs:comment     "Generated from BPMN Element Participant_1wtvb4s"@en ;
+        rdfs:label       "User 2" ;
+        idpo:isMemberOf  instances:Project_1xf1ifl .

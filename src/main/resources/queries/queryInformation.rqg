@@ -1,0 +1,54 @@
+BASE <http://w3id.org/idpo/instances/>
+PREFIX ite: <http://w3id.org/sparql-generate/iter/>
+PREFIX fun: <http://w3id.org/sparql-generate/fn/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX instances: <http://w3id.org/idpo/instances/>
+PREFIX idpo: <http://w3id.org/idpo#> 
+PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+
+GENERATE { 
+
+
+<http://w3id.org/idpo/instances/Information_{?eID}> a idpo:Information;
+        rdfs:comment "Generated from BPMN Element {?id}"@en ;
+        idpo:derivedFromBPMN <http://w3id.org/idpo/instances/{?entityId}>;
+        idpo:hasData <http://example.org/sample/data>;
+        idpo:hasData <http://example.org/sample/moredata>;
+        idpo:hasRequirement <http://w3id.org/idpo/instances/InformationRequirement_{?eID}> ;
+        idpo:hasSpecification <http://w3id.org/idpo/instances/InformationSpecification_{?eID}> ;
+        idpo:hasStatus <http://w3id.org/idpo/instances/Status_{?eID}> .
+
+
+<http://w3id.org/idpo/instances/{?entityId}> a bpmn2:DataObject.
+
+<http://w3id.org/idpo/instances/Status_{?eID}> a idpo:Status;
+        idpo:status "WORK_IN_PROGRESS"@en;
+        idpo:statusSystem "ISO19650"@en.
+
+<http://w3id.org/idpo/instances/InformationRequirement_{?eID}> a idpo:InformationRequirement;
+        idpo:isRequirementOf <http://w3id.org/idpo/instances/Information_{?eID}>;
+        idpo:requires [ a <http://www.w3.org/ns/shacl#NodeShape>;
+                        <http://www.w3.org/ns/shacl#targetNode> <http://w3id.org/idpo/instances/Information_{?eID}>;
+                        <http://www.w3.org/ns/shacl#property> [
+                        		<http://www.w3.org/ns/shacl#path> idpo:hasData ;
+                        		<http://www.w3.org/ns/shacl#minCount> 1 ;
+                        	]
+                            ];
+        idpo:suitability "Default"@en ;
+        idpo:dueDate ""^^xsd:dateTime;
+        idpo:priority "Default"@en.
+
+        <http://w3id.org/idpo/instances/InformationSpecification{?eID}> a idpo:InformationSpecification;
+        idpo:deliverySpecification [ a <http://www.w3.org/ns/shacl#NodeShape>;
+        <http://www.w3.org/ns/shacl#targetNode> <http://w3id.org/idpo/instances/Information_{?eID}>;];
+                idpo:isSpecificationOf <http://w3id.org/idpo/instances/Information_{?eID}>.
+
+}
+SOURCE <http://example.org/document#document0.xml> AS ?source
+
+ITERATOR ite:XPath(?source, "//dataObject", "/dataObject/@id" ) AS ?entity ?entityId
+WHERE {
+       BIND( strafter(?entityId ,"_") AS ?eID )
+} 
