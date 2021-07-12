@@ -29,22 +29,18 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-
 /**
  * Root resource (exposed at "convert" path)
  */
 @Path("convert")
-public class Converter {
+public class ConverterIDPO {
     java.nio.file.Path path = Paths.get(".").toAbsolutePath().normalize();
     String pathQueries = path.toFile().getAbsolutePath() + "/src/main/resources/queries";
     String pathInput = path.toFile().getAbsolutePath() + "/src/main/resources/input";
     String pathOutput = path.toFile().getAbsolutePath() + "/src/main/resources/output";
 
     /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
+     * Method handling HTTP GET requests. 
      */
 
     @POST
@@ -55,7 +51,7 @@ public class Converter {
         System.out.println("Called convert function");
         String transactionString = RandomString.getAlphaNumericString(10);
 
-        String filename = pathInput+"/input_"+transactionString+".xml";
+        String filename = pathInput + "/input_" + transactionString + ".xml";
         FileWriter fw = null;
         try {
             fw = new FileWriter(filename);
@@ -65,13 +61,11 @@ public class Converter {
             e.printStackTrace();
         }
 
-
-
         String queries[] = new File(pathQueries).list();
         java.nio.file.Path queryPaths[] = new java.nio.file.Path[queries.length];
         System.out.println("Found queries to generate:");
-        for(int i=0; i<queries.length; i++) {
-            queryPaths[i]=Paths.get(pathQueries+"/"+queries[i]);
+        for (int i = 0; i < queries.length; i++) {
+            queryPaths[i] = Paths.get(pathQueries + "/" + queries[i]);
         }
 
         Model overallModel = ModelFactory.createDefaultModel();
@@ -80,34 +74,26 @@ public class Converter {
 
         SPARQLExtStreamManager sm = SPARQLExtStreamManager.makeStreamManager(mapper);
 
-        Context context = ContextUtils.build()
-                .setStreamManager(sm)
-                .build();
+        Context context = ContextUtils.build().setStreamManager(sm).build();
 
-        for(int i=0; i<queryPaths.length; i++) {
+        for (int i = 0; i < queryPaths.length; i++) {
             SPARQLExtQuery query = (SPARQLExtQuery) QueryFactory.read(queryPaths[i].toString(), SPARQLExt.SYNTAX);
             RootPlan plan = PlanFactory.create(query);
             Model model = plan.execGenerate(context);
             overallModel.add(model);
         }
 
-
-
         FileOutputStream stream1 = null;
         try {
-            stream1 = new FileOutputStream(pathOutput+"/output_"+transactionString+".ttl");
+            stream1 = new FileOutputStream(pathOutput + "/output_" + transactionString + ".ttl");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        overallModel.write(stream1, "TURTLE") ;
+        overallModel.write(stream1, "TURTLE");
 
         ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-        overallModel.write(stream2, "TURTLE") ;
+        overallModel.write(stream2, "TURTLE");
         System.out.println("Finished convert function");
-        return Response.ok()
-                .entity(new String(stream2.toByteArray()),new Annotation[0])
-                .build();
+        return Response.ok().entity(new String(stream2.toByteArray()), new Annotation[0]).build();
     }
-
-
 }

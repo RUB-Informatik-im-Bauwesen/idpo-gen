@@ -2,43 +2,15 @@ BASE <http://example.com/>
 PREFIX ite: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
-PREFIX mail: <http://example.com/mail#>
-PREFIX note: <http://example.com/note/>
-PREFIX ex: <http://example.com/>
-PREFIX idpo: <http://w3id.org/idpo#> 
-PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
 
-GENERATE { 
-    <http://example.com/note/{?processId}> a bpmn2:Process ;
-        bpmn2:flowElements <http://example.com/note/{?sequenceFlow}>  ;
-        bpmn2:flowElements <http://example.com/note/{?startEvent}>  ;
-        bpmn2:flowElements <http://example.com/note/{?endEvent}>  ;
-        bpmn2:flowElements <http://example.com/note/{?property}>  ;
-        bpmn2:flowElements <http://example.com/note/{?textAnnotation}>  ;
-        bpmn2:flowElements <http://example.com/note/{?dataObjectReference}>  ;
-        bpmn2:flowElements <http://example.com/note/{?dataObject}>  ;
-        bpmn2:flowElements <http://example.com/note/{?subProcess}>  ;
-        bpmn2:flowElements <http://example.com/note/{?activity}>  ;
-        bpmn2:flowElements <http://example.com/note/{?task}>  ;
-        bpmn2:dataInputAssociations ?dIAId;
-        bpmn2:dataOutputAssociations ?dOAId.
+
+GENERATE {
+	<http://w3id.org/idpo/instances/{?processId}> a bpmn2:Process ;
 }
 SOURCE <http://example.org/document#document0.xml> AS ?source
-ITERATOR ite:XPath(?source, "//process" ) AS ?process 
-WHERE {
-     BIND( fun:XPath(?process, "/process/@id") AS ?processId)
-     BIND( fun:XPath(?process, "/process/sequenceFlow/@id") AS ?sequenceFlow)
-     BIND( fun:XPath(?process, "/process/startEvent/@id") AS ?startEvent)
-     BIND( fun:XPath(?process, "/process/endEvent/@id") AS ?endEvent)
-     BIND( fun:XPath(?process, "/process/property/@id") AS ?property)
-     BIND( fun:XPath(?process, "/process/textAnnotation/@id") AS ?textAnnotation)
-     BIND( fun:XPath(?process, "/process/dataObjectReference/@id") AS ?dataObjectReference)
-     BIND( fun:XPath(?process, "/process/dataObject/@id") AS ?dataObject)
-     BIND( fun:XPath(?process, "/process/subProcess/@id") AS ?subProcess)
-     BIND( fun:XPath(?process, "/process/activity/@id") AS ?activity)
-     BIND( fun:XPath(?process, "/process/task/@id") AS ?task)
-     BIND( fun:XPath(?process, "/process/dataInputAssociation/@id") AS ?dIAId)
-     BIND( fun:XPath(?process, "/process/dataOutputAssociation/@id") AS ?dOAId)
-} 
+ITERATOR ite:XPath(?source, "//process", "/process/@id" ) AS ?process ?processId
+WHERE{
+}

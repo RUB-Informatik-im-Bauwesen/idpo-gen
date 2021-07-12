@@ -6,12 +6,12 @@ PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
 
-GENERATE { 
-    <http://w3id.org/idpo/instances/{?mFID}> a bpmn2:MessageFlow ;
-        bpmn2:sourceRef ?mFSR ;
-        bpmn2:targetRef ?mFTR .
+
+GENERATE {
+<http://w3id.org/idpo/instances/{?processId}>         bpmn2:flowElements <http://w3id.org/idpo/instances/{?activityId}>  ;
 }
 SOURCE <http://example.org/document#document0.xml> AS ?source
-ITERATOR ite:XPath(?source, "//messageFlow", "/messageFlow/@id", "/messageFlow/@sourceRef", "/messageFlow/@targetRef") AS ?messageFlow ?mFID ?mFSR ?mFTR
-WHERE {
-} 
+ITERATOR ite:XPath(?source, "//process", "/process/@id" ) AS ?process ?processId
+ITERATOR ite:XPath(?process, "//activity", "/activity/@id") AS ?activity ?activityId  
+WHERE{
+}

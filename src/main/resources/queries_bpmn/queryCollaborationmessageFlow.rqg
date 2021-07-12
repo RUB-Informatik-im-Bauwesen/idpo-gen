@@ -1,17 +1,18 @@
-BASE <http://example.com/> 
+BASE <http://example.com/>
 PREFIX ite: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
 PREFIX instances: <http://w3id.org/idpo/instances/>
 
 GENERATE {
     <http://w3id.org/idpo/instances/{?collabId}> a bpmn2:Collaboration;
+        bpmn2:messageFlowRefs <http://w3id.org/idpo/instances/{?mFID}>;
 
 }
 SOURCE <http://example.org/document#document0.xml> AS ?source
+ITERATOR ite:XPath(?collab, "//messageFlow", "/messageFlow/@id", "/messageFlow/@sourceRef", "/messageFlow/@targetRef") AS ?messageFlow ?mFID
 
-ITERATOR ite:XPath(?source, "//collaboration", "/collaboration/@id" ) AS ?collab ?collabId
 WHERE {
-} 
+}

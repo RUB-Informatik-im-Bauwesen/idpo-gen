@@ -2,18 +2,14 @@ BASE <http://example.com/>
 PREFIX ite: <http://w3id.org/sparql-generate/iter/>
 PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
-PREFIX mail: <http://example.com/mail#>
-PREFIX note: <http://example.com/note/>
-PREFIX ex: <http://example.com/>
-PREFIX idpo: <http://w3id.org/idpo#> 
-PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
 
 GENERATE {
-    <http://example.com/note/{?dIAId}> a bpmn2:DataInputAssociation;
-        bpmn2:targetRef <http://example.com/note/{?tR}>;
-        bpmn2:sourceRef <http://example.com/note/{?sR}>.
+    <http://w3id.org/idpo/instances/{?dIAId}> a bpmn2:DataInputAssociation;
+        bpmn2:targetRef <http://w3id.org/idpo/instances/{?tR}>;
+        bpmn2:sourceRef <http://w3id.org/idpo/instances/{?sR}>.
 }
 SOURCE <http://example.org/document#document0.xml> AS ?source
 
