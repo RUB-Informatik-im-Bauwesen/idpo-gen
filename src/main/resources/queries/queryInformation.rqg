@@ -40,7 +40,7 @@ GENERATE {
         idpo:dueDate ""^^xsd:dateTime;
         idpo:priority "Default"@en.
 
-        <http://w3id.org/idpo/instances/InformationSpecification{?eID}> a idpo:InformationSpecification;
+        <http://w3id.org/idpo/instances/InformationSpecification_{?eID}> a idpo:InformationSpecification;
         idpo:deliverySpecification [ a <http://www.w3.org/ns/shacl#NodeShape>;
         <http://www.w3.org/ns/shacl#targetNode> <http://w3id.org/idpo/instances/Information_{?eID}>;];
                 idpo:isSpecificationOf <http://w3id.org/idpo/instances/Information_{?eID}>.
