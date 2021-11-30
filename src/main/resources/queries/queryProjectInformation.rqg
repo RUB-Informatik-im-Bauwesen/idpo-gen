@@ -5,7 +5,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX idpo: <http://w3id.org/idpo#> 
 PREFIX prov: <http://www.w3.org/ns/prov#> 
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
 
 GENERATE { 
@@ -13,7 +13,6 @@ GENERATE {
 
 <http://w3id.org/idpo/instances/Project_{?projectID}> a idpo:Project;
 rdfs:label "Project_{?projectID}" ;
-#rdfs:comment ?collab;
 rdfs:comment "Generated from BPMN Element {?collabId}"@en .
 
 
