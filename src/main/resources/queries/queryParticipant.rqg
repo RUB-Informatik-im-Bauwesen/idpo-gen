@@ -6,13 +6,13 @@ PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX idpo: <http://w3id.org/idpo#> 
 PREFIX prov: <http://www.w3.org/ns/prov#> 
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+PREFIX bpmn2: <https://www.omg.org/spec/BPMN/2.0#>
 
 GENERATE { 
     <http://w3id.org/idpo/instances/Person_{?pID}> a prov:Person ;
         rdfs:label ?participantName ;
         rdfs:comment "Generated from BPMN Element {?participantId}"@en ;
-         idpo:isMemberOf <http://w3id.org/idpo/instances/Project_{?projectID}>.
+        idpo:isMemberOf <http://w3id.org/idpo/instances/Project_{?projectID}>.
 
          <http://w3id.org/idpo/instances/Project_{?projectID}> idpo:hasMember <http://w3id.org/idpo/instances/Person_{?pID}>.
 }
@@ -24,3 +24,5 @@ WHERE {
         BIND( strafter(?collabId,"_") AS ?projectID )
         BIND( strafter(?participantId ,"_") AS ?pID )
 } 
+
+

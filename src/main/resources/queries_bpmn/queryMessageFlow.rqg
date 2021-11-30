@@ -4,7 +4,7 @@ PREFIX fun: <http://w3id.org/sparql-generate/fn/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
 PREFIX instances: <http://w3id.org/idpo/instances/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-PREFIX bpmn2: <http://www.reiter.at/ontology/bpmn2.0#>
+PREFIX bpmn2: <https://www.omg.org/spec/BPMN/2.0#>
 
 GENERATE { 
     <http://w3id.org/idpo/instances/{?mFID}> a bpmn2:MessageFlow ;
